@@ -2,12 +2,21 @@
 const express = require("express");
 const fs = require("fs");
 const path = require("path");
+const DB = require('./DB')
 
 // CONFIGURATION
 const app = express();
 let PORT = process.env.PORT || 8080;
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
+
+// LOAD DATABASE
+const getDB = async () => {
+    const database = new DB();
+    await database.init('./db/db.json');
+    console.log("--> db.json loaded");
+}
+getDB();
 
 // ROUTES
 app.get("/notes", function (request, response) {
