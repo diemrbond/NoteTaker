@@ -3,18 +3,23 @@ const express = require("express");
 const fs = require("fs");
 const path = require("path");
 const DB = require('./DB')
+let database;
 
 // CONFIGURATION
 const app = express();
 let PORT = process.env.PORT || 8080;
+
+// EXPRESS SETUP
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
+app.use(express.static('public'))
 
 // LOAD DATABASE
 const getDB = async () => {
-    const database = new DB();
+    database = new DB();
     await database.init('./db/db.json');
     console.log("--> db.json loaded");
+    console.log(JSON.stringify(database));
 }
 getDB();
 
@@ -23,14 +28,12 @@ app.get("/notes", function (request, response) {
     response.sendFile(path.join(__dirname, "./public/notes.html"));
 });
 
-app.get("*", function (request, response) {
-    response.sendFile(path.join(__dirname, "./public/index.html"));
-});
-
 // API
 app.get("/api/notes", function (request, response) {
     // Read the db.json file
-    // response.json(data);
+    console.log("API request made to /api/notes");
+    console.log("--> Returning: "+JSON.stringify(database))
+    response.json(database.data);
 });
 
 app.post("/api/notes", function (request, response) {
@@ -41,6 +44,11 @@ app.post("/api/notes", function (request, response) {
 app.delete("/api/notes/:id", function (request, response) {
     // res.json(data);
     // Delete from db.json file
+});
+
+// CATCH ALL
+app.get("*", function (request, response) {
+    response.sendFile(path.join(__dirname, "./public/index.html"));
 });
 
 // LISTENER
