@@ -32,13 +32,23 @@ app.get("/notes", function (request, response) {
 app.get("/api/notes", function (request, response) {
     // Read the db.json file
     console.log("API request made to /api/notes");
-    console.log("--> Returning: "+JSON.stringify(database))
+    console.log("--> Returning: "+database.data)
     response.json(database.data);
 });
 
+app.get("/api/notes/:id", function (request, response) {
+    // Read specific id
+    console.log("API request made to /api/notes/:"+request.params.id);
+    console.log("--> Returning: "+database.data[Number(request.params.id)])
+    response.json(database.data[Number(request.params.id)]);
+});
+
 app.post("/api/notes", function (request, response) {
-    // res.json(data);
     // Add to db.json file
+    let addNote = request.body;
+    database.data.push(addNote);
+
+    database.savefile();
 });
 
 app.delete("/api/notes/:id", function (request, response) {
