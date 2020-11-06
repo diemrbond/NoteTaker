@@ -1,13 +1,17 @@
+// REQUIREMENTS
 const fs = require("fs");
 const path = require("path");
 
+// DB CLASS
 class DB {
 
+    // CLASS CONSTRUCTOR
     constructor() {
         this.filePath = '';
         this.data = [];
     }
 
+    // CLASS INITIALISATION
     async init(file) {
 
         if (!file) {
@@ -17,6 +21,7 @@ class DB {
         this.data = await this.loadfile();
     }
 
+    // LOAD THE DATA AND PARSE
     loadfile() {
         return new Promise((success, failure) => {
             fs.readFile(this.filePath, (error, data) => {
@@ -28,6 +33,7 @@ class DB {
         })
     }
 
+    // SAVE THE DATA TO THE FILE
     savefile() {
         return new Promise((success, failure) => {
             try {
@@ -41,4 +47,5 @@ class DB {
     }
 }
 
+// EXPORT FOR USE
 module.exports = DB;
