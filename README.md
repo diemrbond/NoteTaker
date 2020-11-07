@@ -59,4 +59,4 @@ You should have received a copy of the GNU General Public License along with thi
   Email: [mrbondmustdie@gmail.com](mailto:mrbondmustdie@gmail.com)
 
   ---
-  © 2020 Andrew Kelleher | diemrbond.github.io 
+  © 2020 Andrew Kelleher | http://diemrbond.github.io 
